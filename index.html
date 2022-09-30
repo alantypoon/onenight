@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification" content="us5P1-J-fD3RoCns5r42QZGFPWnqLj1Y1Gs8Y_yd2tc" />
+    <link rel="icon" href="images/favicon.jpg">
+    <title>一夜終極狼人小幫手 網頁版(廣東話)</title>
+    <meta name="description" content="一夜終極狼人小幫手">
+    <meta name="og:description" content="一夜終極狼人小幫手" />
+    <meta property="og:locale" content="zh_HK" />
+    <meta property="og:title" content="一夜終極狼人小幫手 網頁版(廣東話)" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://ayame30.github.io/one-night-ultimate-werewolf-helper/" />
+    <meta property="og:site_name" content="一夜終極狼人小幫手 網頁版(廣東話)" />
+    <meta property="og:description" content="一夜終極狼人小幫手" />
+    <meta property="og:image" content="https://ayame30.github.io/one-night-ultimate-werewolf-helper/images/1200x630.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="assets/my.css">
+    <script data-ad-client="ca-pub-8320937591124639" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">一夜終極狼人小幫手</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href=".">一夜終極狼人小幫手</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class=""><a href="javascript:void(0)" data-toggle="modal" data-target="#ins-modal">使用說明</a></li>
+                        <li class=""><a href="javascript:void(0)" data-toggle="modal" data-target="#rule-modal">一夜終極狼人規則</a></li>
+                        <li>
+                            <div id="share"></div>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="https://z358z358.github.io/avalon-helper/">阿瓦隆小幫手</a>
+                        </li>
+                        <li>
+                            <a href="https://resume.onininon.com/" target="_blank" titile="關於作者"><i class="fa fa-id-card"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <!--/.nav-collapse -->
+            </div>
+        </nav>
+        <div class="container" :class="{playing:status.playing}">
+            <!-- github another -->
+            <h1 class="">一夜終極狼人小幫手(廣東話)</h1>
+            <p>此為支援廣東話版本Fork Repo，原作者網站為 <a href="https://z358z358.github.io/one-night-ultimate-werewolf-helper/">https://z358z358.github.io/one-night-ultimate-werewolf-helper/</a></p>
+            <hr>
+            <button id="play-voice" class="col-xs-6 btn btn-primary btn-lg" :class="{'btn-danger':status.playing}" v-text="(status.playing)?'停止播放':'播放語音'" @click="startVoice"></button>
+            <div class="clearfix"></div>
+            <div class="one-card text-center col-md-2 col-xs-4" :class="{'hover-one': val.on == 0}" v-for="(val,role) in checkList">
+                <div class="flip-container click-card" :class="{hover: val.on == 0}" @click="clickCard(role)">
+                    <div class="flipper">
+                        <div class="front">
+                            <img class="img-thumbnail" :src="'images/'+role+'.jpg'">
+                        </div>
+                        <div class="back">
+                            <img id="bind-img" class="img-thumbnail" src="images/back.jpg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <hr>
+            <p id="sheep-text">
+                <span data-count="1">請所有人合埋對眼。</span>
+                <span data-count="2" v-show="checkList.sentinel.on == 1">哨兵，開眼，你可以放置盾牌標記喺任何一個玩家嘅卡上，除咗你自己，5，4，3，2，1。哨兵，合埋你對眼。</span>
+                <span data-count="3" v-show="checkList.doppelganger.on == 1 && checkList.minion.on == 1">化身幽靈，開眼睇一個玩家嘅角色牌，你依家就係嗰個角色，如果新嘅角色有夜晚行動，請係依家執行，十，9，8，7，6，5，4，3，2，1，如果你依家喺爪牙，請繼續開眼，如果唔係，請合埋對眼，請狼人豎起你哋嘅手指公俾化身成爪牙嘅玩家可以知道你哋喺邊，5，4，3，2，1，請狼人收起手指公，請化身幽靈合埋對眼。</span>
+                <span data-count="28" v-show="checkList.doppelganger.on == 1 && checkList.minion.on != 1">化身幽靈，開眼睇一個玩家嘅角色牌，你依家就係嗰個角色，如果新嘅角色有夜晚行動，請係依家執行，十，9，8，7，6，5，4，3，2，1，請化身幽靈合埋對眼。</span>
+                <span data-count="4" v-show="checkList.dream.on == 1">貪睡狼請豎起你嘅手指公，除咗貪睡狼之外。</span>
+                <span data-count="5">請狼人開眼確認彼此身份，如果場上只有一位狼人，你可以睇中間嘅其中一張牌，5，4，3，2，1，請狼人合埋對眼。</span>
+                <span data-count="6" v-show="checkList.dream.on == 1">請貪睡狼收起手指公。</span>
+                <span data-count="7" v-show="checkList.alpha.on == 1">阿爾法狼，開眼，並將中央嘅狼人身份牌同一個其他玩家身份牌交換，5，4，3，2，1，請阿爾法狼合埋對眼。</span>
+                <span data-count="8" v-show="checkList.mystic.on == 1">狼先知，開眼，你可以睇任何一個其他玩家的身份牌，5，4，3，2，1，請狼先知合埋對眼。</span>
+                <span data-count="9" v-show="checkList.minion.on == 1">請爪牙開眼，請狼人豎起你哋嘅手指公，請爪牙確認狼人喺邊，5，4，3，2，1，請狼人收起手指公，請爪牙合埋對眼。</span>
+                <span data-count="10" v-show="checkList.mason.on == 1">請守夜人開眼並確認另一位守夜人，5，4，3，2，1，請守夜人合埋對眼。</span>
+                <span data-count="11" v-show="checkList.seer.on == 1">請預言家開眼，你可以睇一位玩家嘅牌或者睇中間嘅兩張牌，5，4，3，2，1，請預言家合埋對眼。</span>
+                <span data-count="12" v-show="checkList.apprentice.on == 1">請見習預言家開眼，你可以睇中央嘅一張牌，5，4，3，2，1，請見習預言家合埋對眼。</span>
+                <span data-count="13" v-show="checkList.paranormal.on == 1">靈異偵探，開眼，你可以睇最多兩個玩家嘅身份牌，如果你睇到狼人或者皮匠，你必須停止並成為狼人或者皮匠，7，6，5，4，3，2，1，靈異偵探，合埋對眼。</span>
+                <span data-count="14" v-show="checkList.robber.on == 1">請強盜張開眼睛，你可以同另一位玩家交換牌，並睇你目前嘅新牌，5，4，3，2，1，請強盜合埋對眼。</span>
+                <span data-count="15" v-show="checkList.witch.on == 1">女巫，開眼，你可以睇一張中央區域嘅身份牌，如果你咁做，你必須將呢張身份牌同任何一個玩家嘅身份牌交換，5，4，3，2，1，女巫，合埋對眼。</span>
+                <span data-count="16" v-show="checkList.troublemaker.on == 1">請搗蛋鬼開眼，你可以交換其他兩位玩家嘅牌，5，4，3，2，1，請搗蛋鬼合埋對眼。</span>
+                <span data-count="17" v-show="checkList.idiot.on == 1">村莊白痴，開眼，你可以將除咗自己嘅所有玩家身份牌向左或向右移動一個位置，十五，十四，十三，十二，十一，十，9，8，7，6，5，4，3，2，1，村莊白痴，合埋對眼。</span>
+                <span data-count="18" v-show="checkList.aura.on == 1">循跡者，開眼，所有玩家，如果你睇過或移動過任何身份牌，請舉起你嘅手指公，5，4，3，2，1，請所有玩家收起手指公，請循跡者合埋對眼。</span>
+                <span data-count="19" v-show="checkList.doppelganger.on == 1 && checkList.aura.on == 1">化身幽靈，如果你啱啱睇到嘅牌係循跡者，請開眼，所有玩家，如果你睇過或移動過任何身份牌，請舉起你嘅手指公，5，4，3，2，1，請所有玩家收起手指公，請化身幽靈合埋對眼。</span>
+                <span data-count="20" v-show="checkList.drunk.on == 1">請酒鬼開眼，你必須將自己嘅牌同中間嘅一張牌交換，5，4，3，2，1，請酒鬼合埋對眼。</span>
+                <span data-count="21" v-show="checkList.insomniac.on == 1">請失眠者開眼，請確認自己嘅牌係咩身份，5，4，3，2，1，請失眠者合埋對眼。</span>
+                <span data-count="22" v-show="checkList.doppelganger.on == 1 && checkList.insomniac.on == 1">化身幽靈，如果你啱啱睇到嘅牌係失眠者，依家請開眼確認自己嘅牌係咩身份，5，4，3，2，1，請化身幽靈合埋對眼。</span>
+                <span data-count="23" v-show="checkList.revealer.on == 1">揭秘者，開眼，你可以翻開任何一張其他玩家嘅身份牌正面向上放置，如果顯示係狼人或皮匠，就翻過去，5，4，3，2，1，揭秘者合埋對眼。</span>
+                <span data-count="24" v-show="checkList.doppelganger.on == 1 && checkList.revealer.on == 1">化身幽靈，如果你啱啱睇到嘅牌係揭秘者，開眼，你可以翻開任何一張其他玩家嘅身份牌正面向上放置，如果顯示係狼人或皮匠，就翻過去，5，4，3，2，1，請化身幽靈合埋對眼。</span>
+                <span data-count="25" v-show="checkList.curator.on == 1">監護人，開眼，你可以將一個神器標示物正面向下放係任何一個玩家嘅身份牌上，5，4，3，2，1，監護人，合埋對眼。</span>
+                <span data-count="26" v-show="checkList.curator.on == 1 && checkList.revealer.on == 1">化身幽靈，如果你啱啱睇到嘅牌係監護人，開眼，你可以將一個神器標示物正面向下放係任何一個玩家嘅身份牌上，但不可以放係已有神器嘅身份牌上，5，4，3，2，1，請化身幽靈合埋對眼。</span>
+                <span data-count="27">請所有人繼續合埋對眼並伸出手掂你嘅牌，請安靜並小幅度地移動你嘅牌，5，4，3，2，1，請所有人開眼，遊戲開始。</span>
+            </p>
+            <hr>
+            <button id="play-voice" class="col-xs-6 btn btn-primary btn-lg" :class="{'btn-danger':status.playing}" v-text="(status.playing)?'停止播放':'播放語音'" @click="startVoice"></button>
+            <div id="media" class="col-xs-3"></div>
+            <div class="clearfix"></div>
+            <hr>
+            <form id="settings">
+                <h5>選擇語者</h5>
+                <div class="form-group">
+                    <label class="radio-inline">
+                    <input type="radio" name="speaker" value="Hiujin" v-model="settings.speaker" checked>Hiujin</label>
+
+                    <label class="radio-inline">
+                    <input type="radio" name="speaker" value="Sinyi" v-model="settings.speaker">Sinyi</label>
+                </div>
+                <div class="form-group">
+                    <label>語音速度 (
+                        <span v-text="settings.speed"></span> )</label>
+                    <input class="bar" type="range" name="speed" min="0.5" max="2" value="1" step="0.1" v-model="settings.speed" />
+                </div>
+                <input v-for="(val,role) in checkList" :name="role" v-model="checkList[role].on" type="hidden" :value="val.on">
+            </form>
+            <div class="voices hidden">
+                <audio preload></audio>
+            </div>
+            <hr />
+            <!-- github2 -->
+
+        </div>
+        <!-- /.container -->
+        <!-- 規則 -->
+        <div class="modal fade" id="rule-modal" tabindex="-1" role="dialog" aria-labelledby="rule-modalLabal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="users-modalLabel">規則</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/LTFs5RCKruo?rel=0" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <a target="_blank" href="http://arsl4000.pixnet.net/blog/post/102786610">部落格版本：[桌遊介紹]一夜終極狼人(One Night Ultimate Werewolf)(新增簡體開箱)</a><br>
+                        <a target="_blank" href="http://arsl4000.pixnet.net/blog/post/107063821">一夜終極狼人:黎明再起 (One Night Ultimate Werewolf:Daybreak)</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 說明 -->
+        <div class="modal fade" id="ins-modal" tabindex="-1" role="dialog" aria-labelledby="ins-modalLabal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="users-modalLabel">使用說明</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>將沒使用的角色排覆蓋(點擊即可)，然後按“播放語音”按鈕</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials-theme-flat.css" />
+    <script src="audiojs/audio.min.js?032401"></script>
+    <script src="assets/vue.min.js"></script>
+    <script src="assets/my.js?0822"></script>
+</body>
+
+</html>
