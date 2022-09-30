@@ -22,7 +22,6 @@
 
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="assets/my.css">
-    <script data-ad-client="ca-pub-8320937591124639" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 
 <body>
@@ -61,23 +60,25 @@
         <div class="container" :class="{playing:status.playing}">
             <!-- github another -->
             <h1 class="">一夜終極狼人小幫手(廣東話)</h1>
-            <p>此為支援廣東話版本Fork Repo，原作者網站為 <a href="https://z358z358.github.io/one-night-ultimate-werewolf-helper/">https://z358z358.github.io/one-night-ultimate-werewolf-helper/</a></p>
-            <hr>
-            <button id="play-voice" class="col-xs-6 btn btn-primary btn-lg" :class="{'btn-danger':status.playing}" v-text="(status.playing)?'停止播放':'播放語音'" @click="startVoice"></button>
-            <div class="clearfix"></div>
-            <div class="one-card text-center col-md-2 col-xs-4" :class="{'hover-one': val.on == 0}" v-for="(val,role) in checkList">
-                <div class="flip-container click-card" :class="{hover: val.on == 0}" @click="clickCard(role)">
-                    <div class="flipper">
-                        <div class="front">
-                            <img class="img-thumbnail" :src="'images/'+role+'.jpg'">
-                        </div>
-                        <div class="back">
-                            <img id="bind-img" class="img-thumbnail" src="images/back.jpg">
+            <!-- <p>此為支援廣東話版本Fork Repo，原作者網站為 <a href="https://z358z358.github.io/one-night-ultimate-werewolf-helper/">https://z358z358.github.io/one-night-ultimate-werewolf-helper/</a></p>
+            <hr> -->
+            <button id="play-voice" class="col-xs-6 btn btn-primary btn-lg btn-block" :class="{'btn-danger':status.playing}" v-text="(status.playing)?'停止播放':'播放語音'" @click="startVoice"></button>
+            <div>
+                <div class="clearfix"></div>
+                <div class="one-card text-center col-md-2 col-xs-4" :class="{'hover-one': val.on == 0}" v-for="(val,role) in checkList">
+                    <div class="flip-container click-card" :class="{hover: val.on == 0}" @click="clickCard(role)">
+                        <div class="flipper">
+                            <div class="front">
+                                <img class="img-thumbnail" :src="'images/'+role+'.jpg'">
+                            </div>
+                            <div class="back">
+                                <img id="bind-img" class="img-thumbnail" src="images/back.jpg">
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="clearfix"></div>
             </div>
-            <div class="clearfix"></div>
             <hr>
             <p id="sheep-text">
                 <span data-count="1">請所有人合埋對眼。</span>
@@ -110,7 +111,7 @@
                 <span data-count="27">請所有人繼續合埋對眼並伸出手掂你嘅牌，請安靜並小幅度地移動你嘅牌，5，4，3，2，1，請所有人開眼，遊戲開始。</span>
             </p>
             <hr>
-            <button id="play-voice" class="col-xs-6 btn btn-primary btn-lg" :class="{'btn-danger':status.playing}" v-text="(status.playing)?'停止播放':'播放語音'" @click="startVoice"></button>
+            <button id="play-voice" class="col-xs-6 btn btn-primary btn-lg btn-block" :class="{'btn-danger':status.playing}" v-text="(status.playing)?'停止播放':'播放語音'" @click="startVoice"></button>
             <div id="media" class="col-xs-3"></div>
             <div class="clearfix"></div>
             <hr>
